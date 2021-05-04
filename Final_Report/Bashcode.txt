@@ -1,0 +1,202 @@
+
+
+Lisa strug commands
+
+
+ssh fmohsin@hpf.ccm.sickkids.ca
+8FaiMoh8
+qlogin
+cd /hpf/largeprojects/cfcentre/strug/
+
+Do not copy. Do not have space. 
+
+mv - 
+
+cp /hpf/largeprojects/cfcentre/strug/uk_biobank/46_cal_chr1_v2_s488295.fam .
+mv nameoffile newnameoffile #(this ghanges name of file)
+more ukb40946_cal_chr1_v2_s488295.bim
+
+ln -s ../uk_biobank/ukb40946_cal_chr1_v2_s488295.fam ukb_chr1.fam
+
+
+cd .. 
+
+vim
+?
+:q
+
+ukb_snp_chr10_v2.bim
+
+vim ukb_snp_chr5_v2.bim
+
+SNP's and the genes:
+SCL26A9 - Original SNP: rs4077468 - Chromosome 1. Substitute: rs4077469; r = 1
+SLC6A14 - Original SNP: rs3788766 - Chromosome X. Substitute: rs5905176; r = 0.770
+SCL9A3  - Original SNP: rs57221529 - Chromosome 5. Substitute: rs17497684; r = 0.821
+
+
+module avail
+module load plink/1.90b3x
+module list
+Example SNP:
+rs34156170
+
+plink --bfile ukb40946_cal_chr1_v2_s488295 --recode A --snp rs34156170 --out example_rs34156170
+
+
+
+#######################################################################################
+New Session:
+
+ssh fmohsin@hpf.ccm.sickkids.ca
+qlogin
+qlogin -l walltime=48:00:00 -l mem=20g -l vmem=20g
+cd /hpf/largeprojects/cfcentre/strug/
+
+ln -s ../Naim/uk_biobank/ukb_chrX_rs5905176.raw # this ln -s is the command that links the file with the path to the directory you are currently in. 
+# We can also link the file and rename it to ukb_chrX.raw like below:
+ln -s ../Naim/uk_biobank/ukb_chrX_rs5905176.raw ukb_chrX.raw
+
+Ctrl c is like escape. 
+
+head ukb24727.csv 
+
+head -1000 ukb24727.csv > pheno1000.csv
+
+#Load the r module and the others as well
+echo "module load python/2.7.6 perl/5.18.2 R/3.4.0" >> ~/.bashrc
+
+R
+require(data.table)
+require(dplyr)
+data <- fread('head -1000 ukb24727.csv', stringsAsFactors=F, header=T)
+
+# Have create the file. Just read this one. 
+
+#The phenotype data
+pdata = fread("pheno1000.csv", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+pdata = rename(pdata, IID = eid)
+pdata$IID = as.integer(datta$IID)
+
+#The genotype data
+gdata = fread("ukb_chr1_rs4077469.raw", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+
+data = left_join(pdata, gdata, by = "IID")
+data[1:10, c(1:10, 13980:13992)]
+
+q()
+
+logout
+#fields.ukb
+
+
+
+#######################################################################################
+New Session:
+
+
+ssh fmohsin@hpf.ccm.sickkids.ca
+qlogin -l walltime=48:00:00 -l mem=20g -l vmem=20g
+cd /hpf/largeprojects/cfcentre/strug/faizan/
+R
+
+require(data.table)
+require(dplyr)
+library(devtools)
+#install_github("PheWAS/PheWAS")
+
+library(PheWAS) 
+
+# Load the data. 
+
+#The phenotype data
+pdata = fread("pheno1000.csv", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+pdata = rename(pdata, IID = eid)
+pdata$IID = as.integer(pdata$IID)
+
+#The genotype data
+gdata1 = fread("ukb_chr1_rs4077469.raw", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+gdata2 = fread("ukb_chr5_rs17497684.raw", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+gdata3 = fread("ukb_chrX_rs5905176.raw", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+
+data = left_join(pdata, gdata1, by = "id")
+data = left_join(data, gdata2, by = "IID")
+data = left_join(data, gdata3, by = "IID")
+data[1:10, c(1:10, 13980:14004)]
+
+write.csv(data, "sampledata.csv" , row.names = FALSE)
+
+sampledata= read.csv("sampledata.csv")
+sampledata[1:10, c(1:10, 13980:14004)]
+
+###########################################################################
+# New Session 22/01/2019
+
+library(dplyr)
+We obtained the file that explains the phenotypes with the codes appearing in the csv file. It is an html file. I copied it in
+/hpf/largeprojects/cfcentre/strug/uk_biobank/ukb24727.html
+
+alias chrome="open -a \"Google Chrome\"
+chrome ukb24727.html
+
+open -a "Google Chrome" ukb24727.html
+
+
+summary(lm(X3.0.0 ~ rs4077469_T, data = sampledata))
+names(select(sampledata, contains("0.0")))
+
+table(sampledata$rs4077469_T)
+
+# jpeg does not work 
+jpeg('X3.0.0boxplot.jpg')
+boxplot(X3.0.0 ~ rs4077469_T, data = sampledata)
+dev.off()
+
+# pdf does work 
+pdf('X3.0.0boxplot.pdf')
+boxplot(X3.0.0 ~ rs4077469_T, data = sampledata)
+dev.off()
+
+
+Cannot see pdf. No graphics capability I believe. 
+less X3.0.0boxplot.pdf 
+to see image
+
+###########################################################################
+# New Session 23/01/2019
+
+/hpf/largeprojects/cfcentre/strug/
+module load R/3.4.0
+R
+
+library(PheWAS)
+library(data.table)
+pdata = fread("pheno1000.csv", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+pdata[1:10, c(1:10, 13980:13986)]
+pdata = rename(pdata, id = eid)
+pdata$id = as.integer(pdata$id)
+pdata1 = select(pdata, contains("41202-"))
+
+hes data, uk biobank icd codes. 
+phenotypes - 
+
+gdata1 = fread("ukb_chr1_rs4077469.raw", stringsAsFactors=F, header=T, na.strings=c(""," ","NA"))
+gdata1[1:10,]
+gdata1 = rename(gdata1, id = IID) %>% select( id, rs4077469_T)
+data = left_join(pdata, gdata1, by = "id")
+genotypes = select(data, id, rs4077469_T)
+phenotypes= pdata
+
+
+
+results=phewas(phenotypes,genotypes,cores=1,
+               significance.threshold=c("bonferroni"))
+
+scp your_username@remotehost.edu:foobar.txt /local/dir
+
+scp fmohsin@hpf.ccm.sickkids.ca:ukb24727.html /local/dir
+scp fmohsin@data.ccm.sickkids.ca:/hpf/largeprojects/cfcentre/strug/uk_biobank/ukb24727.html .
+~/OneDrive/OneDrive/Stat_Design_Analysis/Practicum2019/download
+
+C/Users/Faizan/OneDrive/OneDrive/Stat_Design_Analysis/Practicum2019/download
+

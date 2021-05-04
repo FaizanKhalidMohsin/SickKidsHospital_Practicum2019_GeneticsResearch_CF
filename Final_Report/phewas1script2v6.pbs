@@ -1,0 +1,26 @@
+#!/bin/bash -x
+
+#PBS -l mem=61g
+#PBS -l vmem=61g
+#PBS -l walltime=23:59:00
+#PBS -l nodes=1:ppn=1
+#PBS -o /hpf/largeprojects/cfcentre/strug/faizan/job_output/
+#PBS -e /hpf/largeprojects/cfcentre/strug/faizan/job_output/
+#PBS -d /hpf/largeprojects/cfcentre/strug/faizan/
+#PBS -N phewas1cov_proper_dataMarch07
+
+hostname
+date
+
+echo "Working dir is ${PBS_O_WORKDIR}"
+cd $PBS_O_WORKDIR
+
+
+module load R/3.4.0
+Rscript phewas1script2v6.R > phewas1script2v6.Rout
+
+
+
+echo "Done"
+
+date

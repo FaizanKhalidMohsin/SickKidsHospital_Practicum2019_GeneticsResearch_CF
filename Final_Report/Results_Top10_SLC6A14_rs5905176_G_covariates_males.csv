@@ -1,0 +1,11 @@
+,phecode,description,group,snp,adjustment,beta,SE,OR,p,type,n_total,n_cases,n_controls,Risk Allele,HWE_p,allele_freq,n_no_snp,note,bonferroni
+892,599.1,Urinary obstruction,genitourinary,rs5905176_G,NA,0.518310686,0.126602358,1.679,4.24E-05,logistic,117398,64,117334,G,1,0.326198061,194,,TRUE
+751,689,Disorder of skin and subcutaneous tissue NOS,dermatologic,rs5905176_G,NA,0.082513536,0.025050343,1.086,0.000988047,logistic,117398,1751,115647,G,1,0.326198061,194,,FALSE
+342,341,Other demyelinating diseases of central nervous system,neurological,rs5905176_G,NA,-0.566585379,0.179167409,0.567,0.001565154,logistic,117398,67,117331,G,1,0.326198061,194,,FALSE
+1214,223,Benign neoplasm of kidney and other urinary organs,neoplasms,rs5905176_G,NA,-0.405152464,0.137893527,0.667,0.003301726,logistic,117398,90,117308,G,1,0.326198061,194,,FALSE
+530,803.1,Fracture of humerus,injuries & poisonings,rs5905176_G,NA,-0.143142659,0.051113551,0.867,0.005102611,logistic,117398,491,116907,G,1,0.326198061,194,,FALSE
+480,334,Degenerative disease of the spinal cord,neurological,rs5905176_G,NA,-0.219750489,0.081069933,0.803,0.006715578,logistic,117398,210,117188,G,1,0.326198061,194,,FALSE
+1313,527.2,Sialoadenitis,digestive,rs5905176_G,NA,0.252025863,0.093080211,1.287,0.006776752,logistic,117398,117,117281,G,1,0.326198061,194,,FALSE
+238,242,Thyrotoxicosis with or without goiter,endocrine/metabolic,rs5905176_G,NA,-0.329437653,0.128289651,0.719,0.010231056,logistic,117398,95,117303,G,1,0.326198061,194,,FALSE
+20,507,Pleurisy; pleural effusion,respiratory,rs5905176_G,NA,-0.094329141,0.037235683,0.91,0.011299433,logistic,117398,888,116510,G,1,0.326198061,194,,FALSE
+517,222,Benign neoplasm of male genital organs,neoplasms,rs5905176_G,NA,-0.297021512,0.117415557,0.743,0.01141729,logistic,117398,109,117289,G,1,0.326198061,194,,FALSE

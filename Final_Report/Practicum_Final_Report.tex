@@ -1,0 +1,307 @@
+\documentclass[fleqn,10pt]{wlscirep}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+\usepackage{float}
+\usepackage[english]{babel}
+ 
+\setlength{\parindent}{0em} %  no indentation in paragraphs
+\setlength{\parskip}{1em}
+
+
+\title{Evaluating the Performance of Multiple Imputation by Chained Equations and Complete Case Analysis through Simulations}
+
+\author[1,*]{Faizan Khalid Mohsin}
+
+\affil[1]{University of Toronto, Dalla Lana School of Public Health, Toronto,  M5T 3M7, Canada}
+
+
+\affil[*]{faizan.mohsin@mail.utoronto.ca}
+
+%\keywords{Multiple Imputation by Chained Equations, Complete Case Analysis, Mixed-Effects Model}
+
+\begin{abstract}
+
+\textbf{Background:} The challenge of missing data is encountered by all disciplines of science. One approach has been to use only those data points that happen to have no missing values, which is called complete case analysis (CC). Recently a method called multiple imputation by Rubin has become popular for dealing with missing data. There are several methodologies that implement multiple imputation and among them, multiple imputation by chained equatinos using predictive mean matching (MICE), is quite popular. \textbf{Purpose:} We evaluate the performance of MICE and CC individually as well as relative to one another using simulated data. \textbf{Methodology:} We simulate 100 data sets that are longitudinal in nature, and then introduce missingness at 20\%, 30\%, 40\% and 60\%, first under the assumption of missing completely at random (MCAR), then missing at random (MAR) and finally, not missing at random (MNAR). We use the two missing data methods, MICE and CC, on the datasets to handle the missing data and then run a mixed-effects model to obtain 100 coefficient estimates for each method. We take the average of the 100 estimates for each of them and also create 95\% confidence intervals. We also run the mixed-effects model on the complete data sets obtaining 100 true coefficient estimates of which we again take the average and refer it to as the true coefficient estimate and create a 95\% confidence intervals for it as well. \textbf{Results:} We find is that for both, MICE and complete case analysis, when missing data is 50\% and the missingness is either MCAR or MAR. Both missing data methods are very accurate. However, for MNAR, complete case analysis's confidence interval does capture the true averge whereas MICE's does not. Although MICE's confidence interval does overlap with that of the true average's confidence interval. For over 50\% missing data, we did not even have enough complete cases to perform a complete case analysis. However, MICE did capture the true average even at 60\% missing data when the data was MCAR or MAR with the point estimates being very close to the true average. It did not however, capture the true average in its confidence interval when the missing data was MNAR. \textbf{Conclusion:} Both methods perform equally well when missing data is less than 50\% with MICE being more precise (smaller CI). However, when the missing data is MNAR, complete case analysis slightly outperforms MICE when missing data is less that 50\%. However, for over 50\% missing data there might not even be enough complete cases to perform a complete case analysis and so multiple imputation is very advantageous. Further, MICE performs very well even when missing data is over 50\% as long as the missingness is not MNAR. 
+
+
+\end{abstract}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\flushbottom
+\maketitle
+
+\thispagestyle{empty}
+
+\section{Introduction}
+
+These days, with more and more data, the problem of missing data is also increasing. Before the advent of computational power, and even today, for computational conveneince, missing data is sometimes dealt with by simply keeping the observations with no missing data, that is, the complete cases and then analyzing this data set with only complete cases. This approach is called the complete case analysis. However, there have been made many advancements in the past several years and we will be discussing one of them known as multiple imputation (MI) by Rubin\cite{Figueredo:2009dg}. Before we do so, we will describe the three different types of missing data. 
+
+\subsection{Types of Missing Data}
+
+Missing data is divided into three catagories. The first is called missing completely at random (MCAR). As the name suggest, this type of missing data is missing completely at random. There is no associative pattern between the missing data and the study or any aspect of the study. In such a case the missing data can simply be ignored. For example if in a study where people's blood pressures are being measured then if some people are unable to come and have there measurements taken due to a completely unrelated reason which has nothing to do with the person's blood pressure or anything else that we might be interested in the study, sucrh as relating to the person age, or gender, or ethnicity. A truly random reason for not being able to come such as the person being in a random accident or for some reason he left the country unrelated to the study or he just happened to forget about it. Hence, if the reason for having a missing value is completely unrelated to the study or any variable in the study then the missingness is considered to be missing completely at random. 
+
+The second is called missing at random (MAR). This happens when the missing data depends on the other variables in the dataset but not not the missing values. For instance, if we are interested in people's blood pressure then if older people tend to have more missing values for their blood pressures then this could be a case where the missing data would be considered missing at random since the missingness depends on a person's age and not the what their blood pressure is.  
+
+The third is called not missing at random (MNAR). This is when the missing data depends on the missing values themselves. For example if in a study where people's blood pressures are being measured then if the higher the person's blood pressure is, the higher the likelihood that he will not come in to have his blood pressure measured hence will have a missing value. Thus, the missingness of the blood pressure depends on the blood pressure itself. If the missing data is not missing at random, then it can have a significant impact on the results and can seriously bias the results. 
+
+\subsection{Complete Case Analysis}
+
+Complete case analysis is one of the methods to deal with missing data. 
+
+\subsection{Multiple Imputation}
+
+There are many multiple imputation methods however all of them have three main steps. The first step is to impute the missing values 'm' times creating 'm' complete data sets. Each data set is slightly different from the others causing there to be variation between the competed data sets. The second step is to do the statistical analysis one each completed data set resulting into 'm' analysis. Hence, if we were estimating a parameter of a model, then we could have 'm' estimates, one from each data set. The third and last step is to combine all the 'm' analysis into the final result. Hence, for our 'm' estimates we could simply take their average. Fig 1. illustrates the multiple imputation method. 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{Faizan's_mi_fig}
+\caption{Diagram illustrating the three main steps of the Multiple Imputation Method.}
+\label{fig:Faizan's_mi_fig}
+\end{figure}
+
+There are many advantages of multiple imputation.
+
+One advantage of this method is that it, to a degree, accounts for the unknown missing value. It accounts for the fact that even though we may have an idea on the range of the possible values for the missing value, we are uncertain about the exact value is. Hence, by creating 'm' different data sets we are introducint a new source of variation in our analysis with cause our estimate to have two sources that contribute towards it variance. Hence, two variance components. One is the usual variance of the data set the other one is, the new variance, the variance caused by the variation between data sets. The new variance component causes the estimate to have a higher variance. 
+
+\subsection{Multiple Imputation by Chained Equations}
+
+There are many methods as the reader can imagine how the missing values can be imputed in step one of the multiple imputation method. One popular semi-parametric method is called multiple imputaion by chained equations. This is also the method we employed for doing multiple imputation. 
+
+The simple idea behind multiple imputation by chained equations performing a regression on the variable with missing values using the other variables as regressors and then using the predicted values plus a random error, from the regression of the missing value to be the new imputed value. And then some other variable with missing values is regressed on using all the other variables including the variable whose missing values were just imputed, and its missing values as imputed in the same fashion. This is done for all the variables with missing data and can be thought of as one cycle. This cycle is then repeated several times, typically ten or untill convergence is reached for the missing values.\cite{Azur:2011}  
+
+We will investigate these advantages of multiple imputation via evaluating its performance and will be comparing it to that of the complete case analysis. 
+
+
+\section{Methods}
+
+\subsection{Simulating the Longitudinal data}
+
+To simulate the longitudinal data we used the R software. 
+
+
+\begin{itemize}
+
+\item For the age variable we made it normally distributed with mean and variance. 
+\item For the gender a binomial distribution was used with the probability of 80\% of being female. 
+\item For cancer type, subjects can have one of five of the following cancers: "Breast", "Head and Neck", "Leukemia", "Prostate" or "Lung"  with females having the probability of 70\%, 10\%, 15\%, 0\%, and 5\% respectively for each of the cancers and males having the probability of 0\%, 10\%, 20\%, 60\% and 10\% respectively. As you can see females have zero probability of having prostate cancer and males have zero probability of having breast cancer. 
+\item For the cancer stage, we made the higher cancer stages progressively more unlikely the lower the probability of a person 
+\item For the Fatigue scores we made them normally distributed and to create the association between the patients fatigue scores and the timepoints we increased the mean for each subsequent time point such that it would have a slope of 4. 
+
+\end{itemize}
+
+We illustrate the structure of the longitudinal data set in Fig 2. One can see that there are four levels to the data. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{sim_data_structure_scheme}
+\caption{Legend. Multilevel structure of the simulated data set.}
+\label{fig:sim_data_structure_scheme}
+\end{figure}
+
+We also present in Fig 3. the correlation structure of over simulated data between the different variables. As you can see that time point and the fatigue scores are relatively highly correlated with a pearson correlation coefficient of $r=0.58$. This is as intended by construction as you would recall that we set the fatigue scores to be normally distributed at each time point with increasing mean with each subsequent time point. Thus, fatigue scores and time points are correlated. You will also observe that the cancer type and the gender are also correlated with corralation coefficient of -0.71. This is also by design since only females can get breast cancer and only males can get prostrate cancer. For all the other variables they are uncorrelated to one another. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{corr_sim_data}
+\caption{Legend. Correlation structure of the simulated data set}
+\label{fig:corr_sim_data}
+\end{figure}
+
+
+\subsection{Simulating the Missing Data}
+
+After simulating the data we intorduce three types of missingness. To simulate missing completely at random we simlpy randomly make the fatigue scores missing with all the fatigue scores have the same probability of being missing. To introduce missing at random we make the probability of a patient's fatigue score missing depend on the person's age. The higher the age, the greater the probability of having a missing value for the fatigue score. Lastly, for not missing at random we made the probability of having a missing value depend on the fatigues scores them selves with higher fatigue scores being more likely for being missing. We were also interested in testing how the two methods would perform if the MNAR was strong versus a weak relationship. For this, we simply linked more strongly higher probabilities of having missing fatigue scores to the higher fatigue scores. To introduce these three types of missing data we had three functions. By changing the probability of having missing values we could control what percentage of the data was missing. Hence, we were able to created data sets with 20\%, 30\%, 40\% and 60\% missing data for the variable of interest. For reference all the code is appended at the end. 
+
+\subsection{The Mixed Effect Model}
+
+The mixed-effects model is a model for modeling data with repeated measures. Hence, can be used to model repeated measures over time. The mixed effects model is:
+
+$$\bold{y} = \bold{X \beta + Zu + \epsilon}$$
+
+
+where:
+
+\begin{itemize}
+\item $\bold{y}$ is the vector of the variables of interest, with $E(\bold{y}) = \bold{X\beta}$;
+\item $\beta$ is the vector of the coefficients of the fixed effects;
+\item $u$ is the vector of random effects where $u \sim N(0, G)$;
+\item $\epsilon$ is the vector of random errors with $\epsilon \sim N(0, R)$;
+\item with $Cov(u,\epsilon) = 0$;
+\item  $\bold{X}$ and $\bold{Z}$ are design matrices, where $\bold{X}$ is for the fixed effects and $\bold{Z}$ is for the random effects. 
+\end{itemize}
+
+
+To model the simulated longitudinal data using mixed-effects model we used the R package lme4. 
+
+
+For our mixed-effect model, our response variable was the patient's fatigue score, which was treated as a continuous variable.The patients were treated as random effects over time. All the other covariates were treated as fixed effects: Cancer stage, cancer type, age, gender and the time points. The R code we used for our model was: 
+
+$$lmer(FACTF\_Total \sim Timepoint + Age + Sex + CaDiagnosis\_Generalized + Stage\_Generalized + (Timepoint|ID))$$
+
+Where FACTF\_Total is the fatigue score, CaDiagnosis\_Generalized is the type of cancer and Stage\_Generalized is the cancer stage. 
+
+\subsection{Obtaining Estimates and Confidence Intervals from the 100 simulated data sets}
+
+Once we simulated the 100 longitudinal data sets and then added missing data to them, we applied the complete case analysis and then multiple imputatation by chained equations on the 100 data sets individually. Once the missing data was taken care of we applied the same mixed-effects model getting 100 estimates for each of the missing data methods. Then, to do the final step we took the average of the 100 estimates for the complete case analysis and we call this the final complete case point estimate. Similarly, we obtained the final MICE point estimate. Now, since we had the complete data sets we again fitted the mixed-effects model to the complete data sets obtaining 100 "true" estimates. Then again, simply took the average of the 100 "true" estimates to calculate the final "true" point estimate.  
+
+To create the 95\% confidence interval of the estimates of mixed-effects model using multiple imputation we computed the 2.5\% and the 97.5\% quantiles of the 100 estimates we had obtained from the 100 simulations, with 2.5\% and 97.5\% quantiles being the lower and upper bounds of the confidence interval respectively. The 95\% confidence intervals of the complete case analysis estimates and the "true" estimates, were also constructed in the same manner. 
+
+\textbf{subheading}
+
+\section{Results}
+
+\subsection{Comparing Multiple Imputation with Complete Case Analysis for different types, and over different percentages of missing data.}
+
+We first present the results for 20\% and 30\% missing data with the missingness being missing completely at random, the most benign one. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\linewidth]{mcar_res_table}
+\caption{Legend (350 words max). Example legend text.}
+\label{fig:mcar_res_table}
+\end{figure}
+
+From Fig 4. one can see that for 20\% missing data the average of the 100 true coefficients (4.071), the average of the 100 MI coefficients (4.068) and the average of the 100 CC coefficients (4.055) are all very close (the estimates highlighted in orage). The same is true when the missing data is 40\%.
+
+We shall now plot the results, drawing the 95\% confidence intervals as well and will also plot it for 30\% missing data. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{mcar_res_plot}
+\caption{Performance of complete cases analysis and multiple imputation by chained equations for missing complete at random data.}
+\label{fig:mcar_res_plot}
+\end{figure}
+
+As you can see that the point estimates of MICE and CC are almost exactly the same as the true coefficient estimate. Further, their confidence intrevals overlap, with complete case analysis having larger confidence intervals that multiple imputation, especially when 40\% of the data is missing. Hence, one clear advantage of multiple imputation over CC is that it is more accurate, and if missing data is high, then MI is much more accurate. 
+
+We repeated the above but with the missing data now being missing at random with the missingness of the fatigue score depending on the age of the person. 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{mar_res_plot}
+\caption{Performance of complete case analysis and multiple imputation with missing at random data.}
+\label{fig:mar_res_plot}
+\end{figure}
+
+Here, we see, perhaps a bit surprisingly, that even though the data is missing at random, complete case analysis performs as well as multiple imputation even, complete case analysis should be worse of than multiple imputation as it should only be able to handle only data that is missing completely at random. We shall this the reason why in the discussion. 
+
+We again repeated this and now the missing data was not missing at random with the probability of the fatigue score missing depending on the fatigue score itself, with higher fatigue scores being more likely to be missing. After running the simulation 100 times we plot the results below. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{nmar_res_plot}
+\caption{Performance of complete case analysis and multiple imputation for not missing at random data.}
+\label{fig:nmar_res_plot}
+\end{figure}
+
+We see that even for 20\% missing data the point estimates of the two missing data methods are not as accurate as before. Then, when the missingness increases to 30\% and 40\% then the point estimates are way off and multiple imputation's confidence interval does not even contain the true point estimate of the coefficient. 
+
+
+\subsection{Comparing the performance of Complete Cases and Multiple Imputation for weak vs. strong Not Missing at Random data and evaluating the performance of MI for 60\% of missing data.}
+
+We will now see how complete case analysis and multiple imputation perform when there is a strong MNAR pattern for the missing data and when there is a weak one. Both weak and strong MNAR are for 40\% missing data. We have plotted the results in Fig. 8.   
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{nmar_weak_vs_strong}
+\caption{Legend (350 words max). Example legend text.}
+\label{fig:nmar_weak_vs_strong}
+\end{figure}
+
+We see that when the MNAR is weak, then the performance of the complete case analysis and multiple imputation are both very accurate even at 40\% missing data. However, both perform poorly when there is a strong MNAR missing data pattern, with complete case analysis doing slightly better that multiple imputation as its confidence interval captures the true coefficients point estimate and its point estimate is slightly closer than that of the multiple imputation. 
+
+We tried to compare the performance of multiple imputation and complete case analysis for 60\% missing data. However, there were not enough complete cases to perform a complete case analysis. Thus, we only look at how well well multiple imputation performs for the different types of missing data, when 60\% of the data is missing.     
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{mi_60per_missing_plot}
+\caption{Legend (350 words max). Example legend text.}
+\label{fig:mi_60per_missing_plot}
+\end{figure}
+
+From Fig. 9. we see that even when the missing data is very high, 60\% as long as the missing data is missing completely at random or missing at random then multiple imputation perfroms very well. However, when the missing data is not missing at random then, multiple imputation does not perform very well. These results are completely in line with what we expect and what is in the literature. 
+
+\section{Discussion}
+
+There are several interesting findings. First, we found that for MAR, complete case analysis and multiple imputation performed equally well. This, should not have been the case, since multiple imputation is able to handle MAR but complete case analysis is not. However, when we simulated the data we made all the variables uncorrelated, except time point and fatigue scores, and gender and cancer type. Hence, as the algorithm of MICE picks up 
+
+What we find is that for both, MICE and complete case analysis, with under 50\% missing data and with the MCAR and MAR condintions, their confidence intervals capture the true average with MICE's point estimate being closer to the true average with complete case analysis having larger confidence intervals. However, for MNAR, complete case analysis's confidence interval does capture the true averge whereas MICE's does not. Although MICE's confidence interval does overlap with that of the true average's confidence interval. Also, the point estimate for the complete cases was slightly closer to the true average than that of MICE. For over 50\% missing data, we did not even have enough complete cases to perform a comparison between the two. However, MICE did capture the true average even at 60\% missing data when the data was MCAR or MAR with the point estimates being very close to the true average. It did not however, capture the true average in its confidence interval when the missing data was MNAR. \textbf{Conclusion:}: Both methods perform equally well when missing data is less than 50\% with MICE being more precise (smaller CI). However, when the missing data is MNAR, complete case analysis outperforms MICE. For over 50\% missing data there might not even be enough complete cases to perform a complete case analysis and there. But MICE performs very well even when missing data is over 50\% as long as the missingness is not MNAR. 
+
+
+\bibliography{sample}
+
+\noindent LaTeX formats citations and references automatically using the bibliography records in your .bib file, which you can edit via the project menu. Use the cite command for an inline citation, e.g.  \cite{Figueredo:2009dg}.
+
+\section*{Acknowledgements (not compulsory)}
+
+Acknowledgements should be brief, and should not include thanks to anonymous referees and editors, or effusive comments. Grant or contribution numbers may be acknowledged.
+
+\section*{Author contributions statement}
+
+Must include all authors, identified by initials, for example:
+A.A. conceived the experiment(s),  A.A. and B.A. conducted the experiment(s), C.A. and D.A. analysed the results.  All authors reviewed the manuscript. 
+
+\section*{Additional information}
+
+To include, in this order: \textbf{Accession codes} (where applicable); \textbf{Competing financial interests} (mandatory statement). 
+
+The corresponding author is responsible for submitting a \href{http://www.nature.com/srep/policies/index.html#competing}{competing financial interests statement} on behalf of all authors of the paper. This statement must be included in the submitted article file.
+
+
+
+
+Figures and tables can be referenced in LaTeX using the ref command, e.g. Figure \ref{fig:stream} and Table \ref{tab:example}.
+
+\end{document}

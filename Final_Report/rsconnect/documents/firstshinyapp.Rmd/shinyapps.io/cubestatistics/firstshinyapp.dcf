@@ -1,0 +1,12 @@
+name: firstshinyapp
+title: firstshinyapp
+username:
+account: cubestatistics
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 804193
+bundleId: 1954715
+url: https://cubestatistics.shinyapps.io/firstshinyapp/
+when: 1553151123.87894
+asMultiple: FALSE
+asStatic: FALSE

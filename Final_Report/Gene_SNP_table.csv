@@ -1,0 +1,4 @@
+Gene,SNP of Interest,Chromosome,Substitute SNP,Correlation
+SCL26A9,rs4077468,Chromosome 1,rs4077469,r = 1
+SCL9A3,rs57221529,Chromosome 5,rs17497684,r = 0.821
+SLC6A14,rs3788766,Chromosome X,rs5905176,r = 0.770

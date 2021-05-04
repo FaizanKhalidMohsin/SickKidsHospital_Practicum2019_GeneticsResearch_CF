@@ -1,0 +1,11 @@
+phecode,description,group,snp,adjustment,beta,SE,OR,p,type,n_total,n_cases,n_controls,HWE_p,allele_freq,n_no_snp,note,bonferroni
+300.12,"Agorophobia, social phobia, and panic disorder",mental disorders,rs4077469_T,NA,-0.506,0.14,0.603,0.000308404,logistic,261655,126,261529,0.989426443,0.393766601,1952,NA,FALSE
+159.4,Malignant neoplasm of retroperitoneum and peritoneum,neoplasms,rs4077469_T,NA,-0.403,0.124,0.668,0.001152183,logistic,261655,155,261500,0.989426443,0.393766601,1952,NA,FALSE
+362.8,Retinal hemorrhage/ischemia,sense organs,rs4077469_T,NA,-1.069,0.334,0.343,0.001384565,logistic,261655,30,261625,0.989426443,0.393766601,1952,NA,FALSE
+208,Benign neoplasm of colon,neoplasms,rs4077469_T,NA,0.035,0.012,1.036,0.003435607,logistic,261655,15656,245999,0.989426443,0.393766601,1952,NA,FALSE
+653,Problems associated with amniotic cavity and membranes,pregnancy complications,rs4077469_T,NA,0.403,0.138,1.497,0.003454946,logistic,261655,105,261550,0.989426443,0.393766601,1952,NA,FALSE
+609.2,Abnormal spermatozoa,genitourinary,rs4077469_T,NA,-0.413,0.144,0.661,0.003970861,logistic,261655,116,261539,0.989426443,0.393766601,1952,NA,FALSE
+348.9,"Other conditions of brain, NOS",neurological,rs4077469_T,NA,0.434,0.152,1.543,0.004351233,logistic,261655,87,261568,0.989426443,0.393766601,1952,NA,FALSE
+225.2,"Benign neoplasm of spinal cord, meninges",neoplasms,rs4077469_T,NA,-0.7,0.246,0.496,0.004383025,logistic,261655,45,261610,0.989426443,0.393766601,1952,NA,FALSE
+149.1,Cancer of oropharynx,neoplasms,rs4077469_T,NA,-0.281,0.102,0.755,0.005733533,logistic,261655,220,261435,0.989426443,0.393766601,1952,NA,FALSE
+425.12,Other hypertrophic cardiomyopathy,circulatory system,rs4077469_T,NA,-0.546,0.202,0.579,0.006851155,logistic,261655,62,261593,0.989426443,0.393766601,1952,NA,FALSE
