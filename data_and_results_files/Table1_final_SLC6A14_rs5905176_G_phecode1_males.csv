@@ -1,0 +1,11 @@
+Phecode,,Urinary obstruction,,,
+,level,FALSE,TRUE,p,test
+n,,117334,64,,
+rs5905176_G (%),0,  79076 ( 67.4) ,     27 ( 42.2) ,<0.001,
+,2,  38258 ( 32.6) ,     37 ( 57.8) ,,
+Urinary obstruction,, 117334 (100.0) ,      0 (  0.0) ,<0.001,
+phecode: 599.1 (%),TRUE,      0 (  0.0) ,     64 (100.0) ,,
+Disorder of skin and subcutaneous tissue NOS,FALSE, 115583 ( 98.5) ,     64 (100.0) ,0.639,
+phecode: 689 (%),TRUE,   1751 (  1.5) ,      0 (  0.0) ,,
+age (mean (SD)),,  58.44 (7.73),  62.19 (5.96),<0.001,
+age2 (mean (SD)),,3475.18 (868.88),3902.25 (706.87),<0.001,
